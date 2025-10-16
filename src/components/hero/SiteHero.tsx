@@ -6,8 +6,8 @@ export default function SiteHero() {
       <Badge>반려동물 동반</Badge>
       <Title>펫플레이스</Title>
       <Subtitle>
-        직접 다녀오거나 확인한 장소를 모아두는 개인 컬렉션입니다. 지역과 카테고리를 골라 원하는 공간을
-        찾아보세요.
+        반려동물과 함께했던 좋은 장소들을 기록하고 소개합니다.
+지역과 카테고리를 선택해 살펴보세요.
       </Subtitle>
     </HeroSection>
   );
