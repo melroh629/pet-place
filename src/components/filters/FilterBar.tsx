@@ -65,7 +65,7 @@ const FilterWrap = styled.section`
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
 `;
 
-const Field = styled.label`
+const Field = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -75,7 +75,7 @@ const Field = styled.label`
   color: #555555;
 `;
 
-const Label = styled.span`
+const Label = styled.label`
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #9e9e9e;
