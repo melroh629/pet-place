@@ -14,7 +14,7 @@ type PlaceListProps = {
 export default function PlaceList({ places, loading, error, onSelect }: PlaceListProps) {
   return (
     <div>
-      <Summary>{loading ? "장소 정보를 불러오는 중입니다…" : `총 ${places.length}곳이 준비돼 있어요`}</Summary>
+      <Summary>{loading ? "장소 정보를 불러오는 중입니다…" : `총 ${places.length} 곳의 기록이 있습니다.`}</Summary>
       {error && <StateMessage $variant="error">{error}</StateMessage>}
       <Grid aria-busy={loading}>
         {places.map((place) => (
