@@ -11,11 +11,19 @@
 ### 메인 리스트
 - 모바일 우선 카드 레이아웃(썸네일 + 텍스트)
 - 표시 정보: 장소명, 지역/카테고리 뱃지, 한 줄 메모, 네이버 링크
+<<<<<<< HEAD
 - 정렬: 최신 확인일 순, 필터: 지역·카테고리
 
 ### 상세 드로어
 - 하단 슬라이드 업 형태
 - 장소명, 지역/카테고리, 주소, 전화번호, 네이버/인스타 바로가기 노출
+=======
+- 정렬: 최신 확인일 순, 필터: 지역·카테고리·검색어(이름/주소/메모)
+
+### 상세 드로어
+- 하단 슬라이드 업 형태
+- 장소명, 지역/카테고리, 주소, 전화번호, 확인일, 네이버 이동 버튼 노출
+>>>>>>> 93e41e7 (Refactor UI components and add sharing metadata)
 - 이미지가 없을 경우 카테고리 아이콘 이모지 표시
 
 ## 3. 데이터 구조 (Google Sheet)
@@ -26,17 +34,26 @@
 | `region` | 시·도 구분(서울, 경기, 부산 … 제주) |
 | `category` | 공원, 카페, 식당, 식물원, 숙소, 기타 |
 | `address` | 주소 |
+<<<<<<< HEAD
 | `address_type` | 도로명/지번 등 구분값(옵션) |
 | `phone` | 연락처 |
 | `naver_url` | 네이버 플레이스/지도 링크 |
 | `insta` | 인스타그램 링크 |
+=======
+| `phone` | 연락처 |
+| `naver_url` | 네이버 플레이스/지도 링크 |
+>>>>>>> 93e41e7 (Refactor UI components and add sharing metadata)
 | `verified_at` | 방문 및 확인일 |
 | `source` | 직접 방문 / 전화 확인 / 추천 등 출처 |
 | `memo` | 한 줄 코멘트 |
 | `photo_url` | 이미지 링크(없으면 기본 썸네일) |
 | `approved` | 검증 완료 여부(웹 노출 기준) |
 
+<<<<<<< HEAD
 데이터 입력 흐름은 Sheet → 검증 → CSV 공개 → 웹 반영 순서로 구성하며, `approved=true` 항목만 프런트에 노출합니다.
+=======
+데이터 입력 흐름은 Sheet → 검증 → JSON 또는 CSV export → 웹 반영 순서로 구성하며, `approved=true` 항목만 프런트에 노출합니다.
+>>>>>>> 93e41e7 (Refactor UI components and add sharing metadata)
 
 ## 4. 기술 스택
 | 영역 | 선택 |
@@ -46,7 +63,11 @@
 | 데이터 로드 | Google Sheets CSV 공개 + 클라이언트 fetch |
 | 검증 | zod |
 | 유틸 | papaparse |
+<<<<<<< HEAD
 | 배포 | Vercel (권장) |
+=======
+| 배포 | Vercel |
+>>>>>>> 93e41e7 (Refactor UI components and add sharing metadata)
 | 협업 품질 | ESLint + Prettier |
 
 ## 5. 환경 변수
@@ -54,7 +75,10 @@
 
 ```
 NEXT_PUBLIC_PLACES_URL="https://docs.google.com/spreadsheets/.../export?format=csv&..."
+<<<<<<< HEAD
 NEXT_PUBLIC_SITE_URL="https://your-domain.example"   # 배포 시 절대경로용
+=======
+>>>>>>> 93e41e7 (Refactor UI components and add sharing metadata)
 ```
 
 - `NEXT_PUBLIC_` prefix 덕분에 클라이언트에서 직접 `fetch`합니다.
