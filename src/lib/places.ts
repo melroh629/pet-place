@@ -257,14 +257,15 @@ function mapRowToPlace(row: RawRow): Place | null {
 }
 
 export function parsePlacesCsv(csv: string): Place[] {
-  const result = Papa.parse<RawRow>(csv, {
+  const result = Papa.parse(csv, {
     header: true,
     skipEmptyLines: true,
     transformHeader: (header: string) => header.trim().toLowerCase(),
     transform: (value: string) => value.trim(),
   });
 
-  const data = Array.isArray(result.data) ? result.data : [];
+  const parsed = result as { data?: RawRow[] };
+  const data = Array.isArray(parsed.data) ? parsed.data : [];
 
   return data
     .map((row) => mapRowToPlace(row))
