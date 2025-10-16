@@ -58,7 +58,7 @@ const FilterWrap = styled.section`
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  padding: 18px;
+  padding: clamp(16px, 3vw, 20px);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid #e5e5e5;

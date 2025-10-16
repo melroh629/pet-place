@@ -107,7 +107,8 @@ const Overlay = styled.div`
 
 const Drawer = styled.div`
   position: relative;
-  width: 100%;
+  width: min(640px, 100%);
+  margin: 0 clamp(16px, 6vw, 48px);
   max-height: calc(100vh - 16px);
   background: #ffffff;
   border-radius: 26px 26px 0 0;
