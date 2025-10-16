@@ -55,12 +55,16 @@ export default function Page() {
 const PageBackground = styled.div`
   min-height: 100vh;
   background: #f7f8fa;
+  display: flex;
+  justify-content: center;
 `;
 
 const PageWrap = styled.main`
-  max-width: 1040px;
+  width: min(960px, 100%);
+  max-width: 960px;
+  min-width: min(100%, 320px);
   margin: 0 auto;
-  padding: 36px 20px 120px;
+  padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 32px) 120px;
   display: flex;
   flex-direction: column;
   gap: 28px;

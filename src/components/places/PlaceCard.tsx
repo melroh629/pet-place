@@ -101,4 +101,7 @@ const CardAddress = styled.p`
   font-size: 13px;
   color: #777777;
   line-height: 1.45;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
