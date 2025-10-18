@@ -8,7 +8,13 @@ import SiteHero from "@/components/hero/SiteHero";
 import PlaceDrawer from "@/components/places/PlaceDrawer";
 import PlaceList from "@/components/places/PlaceList";
 import { usePlaces } from "@/hooks/usePlaces";
-import { CATEGORIES, REGIONS, type Category, type Place, type Region } from "@/lib/places";
+import {
+  CATEGORIES,
+  REGIONS,
+  type Category,
+  type Place,
+  type Region,
+} from "@/lib/places";
 
 const REGION_OPTIONS: Array<Region | "전체"> = ["전체", ...REGIONS];
 const CATEGORY_OPTIONS: Array<Category | "전체"> = ["전체", ...CATEGORIES];
@@ -22,7 +28,8 @@ export default function Page() {
   const filtered = useMemo(() => {
     return allPlaces.filter((place) => {
       const matchesRegion = region === "전체" || place.region === region;
-      const matchesCategory = category === "전체" || place.category === category;
+      const matchesCategory =
+        category === "전체" || place.category === category;
       return matchesRegion && matchesCategory;
     });
   }, [allPlaces, region, category]);
@@ -45,7 +52,12 @@ export default function Page() {
           onRegionChange={setRegion}
           onCategoryChange={setCategory}
         />
-        <PlaceList places={filtered} loading={loading} error={error} onSelect={setSelected} />
+        <PlaceList
+          places={filtered}
+          loading={loading}
+          error={error}
+          onSelect={setSelected}
+        />
         <PlaceDrawer place={selected} onClose={() => setSelected(null)} />
       </PageWrap>
     </PageBackground>
@@ -55,16 +67,12 @@ export default function Page() {
 const PageBackground = styled.div`
   min-height: 100vh;
   background: #f7f8fa;
-  display: flex;
-  justify-content: center;
 `;
 
 const PageWrap = styled.main`
-  width: min(960px, 100%);
-  max-width: 960px;
-  min-width: min(100%, 320px);
+  max-width: 1040px;
   margin: 0 auto;
-  padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 32px) 120px;
+  padding: 36px 20px 120px;
   display: flex;
   flex-direction: column;
   gap: 28px;

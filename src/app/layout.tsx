@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -43,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>{children}</body>
+      <Analytics />
     </html>
   );
 }
