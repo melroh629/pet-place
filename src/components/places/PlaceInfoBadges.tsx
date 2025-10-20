@@ -252,7 +252,7 @@ function buildInfoItems(place: Place): InfoItem[] {
             }
           : config.fallback);
       return {
-        key,
+        key: `base-${key}`,
         label: config.label,
         display: resolved.display,
         tooltip: resolved.tooltip,
