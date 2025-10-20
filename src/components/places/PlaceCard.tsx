@@ -15,7 +15,9 @@ export default function PlaceCard({ place, onSelect }: PlaceCardProps) {
   return (
     <Card onClick={() => onSelect(place)}>
       <CardThumb $bgColor={thumbColor}>
-        <ThumbIcon aria-hidden="true">{CATEGORY_EMOJI[place.category]}</ThumbIcon>
+        <ThumbIcon aria-hidden="true">
+          {CATEGORY_EMOJI[place.category]}
+        </ThumbIcon>
       </CardThumb>
       <CardBody>
         <BadgeRow>
@@ -44,7 +46,6 @@ const Card = styled.article`
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 18px 36px rgba(0, 194, 122, 0.16);
   }
 `;
 

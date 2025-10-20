@@ -5,7 +5,6 @@ import type { ThemeConfig } from "antd";
 import { useMemo } from "react";
 
 const BRAND_PRIMARY = "#00c27a";
-const BRAND_NEUTRAL = "#0f341f";
 
 const baseTheme: ThemeConfig = {
   token: {
@@ -32,12 +31,6 @@ const baseTheme: ThemeConfig = {
     Tooltip: {
       borderRadius: 10,
       colorText: "#ffffff",
-      colorBgDefault: BRAND_NEUTRAL,
-    },
-    Tag: {
-      borderRadiusSM: 999,
-      borderRadius: 999,
-      fontWeight: 600,
     },
   },
 };
@@ -46,7 +39,7 @@ export default function AppProviders({ children }: { children: React.ReactNode }
   const memoizedTheme = useMemo(() => baseTheme, []);
 
   return (
-    <ConfigProvider theme={memoizedTheme} wave={{ disabled: true }} iconPrefix="pet">
+    <ConfigProvider theme={memoizedTheme} iconPrefixCls="pet">
       {children}
     </ConfigProvider>
   );
