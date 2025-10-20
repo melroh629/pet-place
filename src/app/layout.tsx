@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 
+import "antd/dist/reset.css";
 import "./globals.css";
+
+import AppProviders from "@/components/providers/AppProviders";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -44,8 +47,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
-      <Analytics />
+      <body>
+        <AppProviders>
+          {children}
+          <Analytics />
+        </AppProviders>
+      </body>
     </html>
   );
 }

@@ -1,7 +1,11 @@
-import type { ChangeEvent } from "react";
 import styled from "styled-components";
 
+import { Select } from "antd";
+
 import type { Category, Region } from "@/lib/places";
+
+const REGION_LABEL_ID = "filter-region-label";
+const CATEGORY_LABEL_ID = "filter-category-label";
 
 type FilterBarProps = {
   region: Region | "전체";
@@ -20,35 +24,29 @@ export default function FilterBar({
   onRegionChange,
   onCategoryChange,
 }: FilterBarProps) {
-  function handleRegion(event: ChangeEvent<HTMLSelectElement>) {
-    onRegionChange(event.target.value as Region | "전체");
-  }
-
-  function handleCategory(event: ChangeEvent<HTMLSelectElement>) {
-    onCategoryChange(event.target.value as Category | "전체");
-  }
-
   return (
     <FilterWrap>
       <Field>
-        <Label htmlFor="filter-region">지역</Label>
-        <Select id="filter-region" value={region} onChange={handleRegion}>
-          {regions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </Select>
+        <Label id={REGION_LABEL_ID}>지역</Label>
+        <Select
+          aria-labelledby={REGION_LABEL_ID}
+          value={region}
+          style={{ width: "100%" }}
+          options={regions.map((option) => ({ value: option, label: option }))}
+          onChange={(value) => onRegionChange(value as Region | "전체")}
+          popupMatchSelectWidth={false}
+        />
       </Field>
       <Field>
-        <Label htmlFor="filter-category">카테고리</Label>
-        <Select id="filter-category" value={category} onChange={handleCategory}>
-          {categories.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </Select>
+        <Label id={CATEGORY_LABEL_ID}>카테고리</Label>
+        <Select
+          aria-labelledby={CATEGORY_LABEL_ID}
+          value={category}
+          style={{ width: "100%" }}
+          options={categories.map((option) => ({ value: option, label: option }))}
+          onChange={(value) => onCategoryChange(value as Category | "전체")}
+          popupMatchSelectWidth={false}
+        />
       </Field>
     </FilterWrap>
   );
@@ -79,20 +77,4 @@ const Label = styled.label`
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #9e9e9e;
-`;
-
-const Select = styled.select`
-  border-radius: 14px;
-  border: 1px solid #d7e2db;
-  padding: 11px 14px;
-  font-size: 15px;
-  background: #ffffff;
-  color: #1a1a1a;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-
-  &:focus {
-    border-color: #00c27a;
-    box-shadow: 0 0 0 3px rgba(0, 194, 122, 0.18);
-    outline: none;
-  }
 `;

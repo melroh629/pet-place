@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import { CATEGORY_COLORS, CATEGORY_EMOJI, type Place } from "@/lib/places";
 
+import PlaceInfoBadges from "./PlaceInfoBadges";
+
 type PlaceCardProps = {
   place: Place;
   onSelect: (place: Place) => void;
@@ -22,6 +24,7 @@ export default function PlaceCard({ place, onSelect }: PlaceCardProps) {
         </BadgeRow>
         <CardTitle>{place.name}</CardTitle>
         <CardAddress>{place.address}</CardAddress>
+        <PlaceInfoBadges place={place} variant="compact" />
       </CardBody>
     </Card>
   );
@@ -66,7 +69,7 @@ const CardBody = styled.div`
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 `;
 
 const BadgeRow = styled.div`

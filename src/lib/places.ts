@@ -29,12 +29,27 @@ export type Category = (typeof CATEGORIES)[number];
 
 export type PlaceSource = "직접 방문" | "전화 확인" | "추천" | "기타";
 
+export const PARKING_OPTIONS = ["무료", "유료", "불가"] as const;
+
+export type ParkingOption = (typeof PARKING_OPTIONS)[number];
+
+export const DOG_ACCESS_OPTIONS = ["모두 가능", "실외만 가능", "일부 가능"] as const;
+
+export type DogAccessOption = (typeof DOG_ACCESS_OPTIONS)[number];
+
+export const WEIGHT_LIMIT_OPTIONS = ["제한 없음", "소형견", "중형견", "대형견"] as const;
+
+export type WeightLimitOption = (typeof WEIGHT_LIMIT_OPTIONS)[number];
+
 export type Place = {
   id: string;
   name: string;
   region: Region;
   category: Category;
   address: string;
+  parking?: ParkingOption;
+  dogAccess?: DogAccessOption;
+  weightLimit?: WeightLimitOption;
   phone?: string;
   naverUrl?: string;
   instagramUrl?: string;
@@ -109,6 +124,9 @@ const PlaceSchema = z.object({
   region: z.enum(REGIONS),
   category: z.enum(CATEGORIES),
   address: z.string().min(1),
+  parking: z.enum(PARKING_OPTIONS).optional(),
+  dogAccess: z.enum(DOG_ACCESS_OPTIONS).optional(),
+  weightLimit: z.enum(WEIGHT_LIMIT_OPTIONS).optional(),
   phone: z.string().trim().optional(),
   naverUrl: z.string().url().optional(),
   instagramUrl: z.string().url().optional(),
@@ -182,6 +200,45 @@ function normalizeSource(value: string | undefined): PlaceSource {
   }
 }
 
+function normalizeParking(value: string | undefined): ParkingOption | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  const compact = trimmed.replace(/\s+/g, "");
+  const matched = PARKING_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
+  return matched as ParkingOption | undefined;
+}
+
+function normalizeDogAccess(value: string | undefined): DogAccessOption | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  const compact = trimmed.replace(/\s+/g, "");
+  const matched = DOG_ACCESS_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
+  return matched as DogAccessOption | undefined;
+}
+
+function normalizeWeightLimit(value: string | undefined): WeightLimitOption | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  const compact = trimmed.replace(/\s+/g, "");
+  const matched = WEIGHT_LIMIT_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
+  return matched as WeightLimitOption | undefined;
+}
+
 function toBoolean(value: string | undefined): boolean {
   if (!value) {
     return false;
@@ -235,6 +292,9 @@ function mapRowToPlace(row: RawRow): Place | null {
     region,
     category,
     address,
+    parking: normalizeParking(pickString(row, "parking")),
+    dogAccess: normalizeDogAccess(pickString(row, "dog_access")),
+    weightLimit: normalizeWeightLimit(pickString(row, "weight_limit")),
     phone: pickString(row, "phone"),
     naverUrl: toOptionalUrl(pickString(row, "naver_url")),
     instagramUrl: toOptionalUrl(pickString(row, "insta")),

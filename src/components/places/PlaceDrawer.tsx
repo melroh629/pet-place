@@ -1,8 +1,10 @@
-import Link from "next/link";
 import styled, { keyframes } from "styled-components";
+
+import { Button } from "antd";
 
 import CloseIcon from "@/components/icons/CloseIcon";
 import InstagramIcon from "@/components/icons/InstagramIcon";
+import PlaceInfoBadges from "@/components/places/PlaceInfoBadges";
 import { CATEGORY_COLORS, CATEGORY_EMOJI, type Place } from "@/lib/places";
 
 const slideUp = keyframes`
@@ -64,27 +66,36 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
             </Section>
           )}
 
+          <Section>
+            <SectionLabel>이용 정보</SectionLabel>
+            <PlaceInfoBadges place={place} variant="grid" />
+          </Section>
+
           {showActions && (
             <Actions>
               {hasLink && (
-                <ActionLink
+                <Button
+                  block
+                  type="primary"
+                  size="large"
                   href={place.naverUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   네이버로 보기
-                </ActionLink>
+                </Button>
               )}
               {hasInstagram && (
-                <ActionLink
-                  $variant="secondary"
+                <Button
+                  block
+                  size="large"
                   href={place.instagramUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
+                  icon={<InstagramIcon size={18} stroke="#007a4d" strokeWidth={1.4} />}
                 >
-                  <InstagramIcon size={18} stroke="#007a4d" strokeWidth={1.4} />
                   인스타그램 보기
-                </ActionLink>
+                </Button>
               )}
             </Actions>
           )}
@@ -203,7 +214,7 @@ const Meta = styled.p`
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
 `;
 
 const SectionLabel = styled.h4`
@@ -226,24 +237,4 @@ const Actions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-
-const ActionLink = styled(Link)<{ $variant?: "primary" | "secondary" }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 15px;
-  background: ${(props) => (props.$variant === "secondary" ? "#ffffff" : "#00c27a")};
-  color: ${(props) => (props.$variant === "secondary" ? "#007a4d" : "#ffffff")};
-  border: ${(props) => (props.$variant === "secondary" ? "1px solid #c8e9dc" : "none")};
-  transition: background 0.16s ease, box-shadow 0.16s ease, border 0.16s ease;
-
-  &:hover {
-    background: ${(props) => (props.$variant === "secondary" ? "#f2f6f4" : "#009b64")};
-    box-shadow: 0 10px 22px rgba(0, 155, 100, 0.22);
-  }
 `;
