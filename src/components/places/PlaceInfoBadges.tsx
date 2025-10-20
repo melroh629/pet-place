@@ -2,10 +2,10 @@
 
 import { Tag, Tooltip } from "antd";
 import type { LucideIcon } from "lucide-react";
-import { CarFront, Dog, Weight } from "lucide-react";
+import { Baby, CarFront, Dog, Link, ShoppingBag, Weight } from "lucide-react";
 import styled from "styled-components";
 
-import type { Place } from "@/lib/places";
+import type { DogRequirement, Place } from "@/lib/places";
 
 type InfoKey = "parking" | "dogAccess" | "weightLimit";
 
@@ -197,8 +197,26 @@ const INFO_CONFIG: Record<InfoKey, InfoConfig> = {
   },
 };
 
+const REQUIREMENT_CONFIG: Record<DogRequirement, { icon: LucideIcon; tooltip: string; palette: InfoVisualColors }> = {
+  "유모차 필수": {
+    icon: Baby,
+    tooltip: "반려견과 함께하려면 유모차가 필요해요.",
+    palette: palette.amber,
+  },
+  "목줄 필수": {
+    icon: Link,
+    tooltip: "목줄을 반드시 착용해야 해요.",
+    palette: palette.green,
+  },
+  "이동가방 필수": {
+    icon: ShoppingBag,
+    tooltip: "이동가방(캐리어)이 필요해요.",
+    palette: palette.blue,
+  },
+};
+
 type InfoItem = {
-  key: InfoKey;
+  key: string;
   label: string;
   display: string;
   tooltip: string;
@@ -217,7 +235,7 @@ function buildInfoItems(place: Place): InfoItem[] {
     ["weightLimit", place.weightLimit],
   ];
 
-  return entries
+  const baseItems = entries
     .map(([key, value]) => {
       const config = INFO_CONFIG[key];
       if (!config) {
@@ -247,6 +265,35 @@ function buildInfoItems(place: Place): InfoItem[] {
       } satisfies InfoItem;
     })
     .filter((item): item is InfoItem => Boolean(item));
+
+  return [...baseItems, ...buildRequirementItems(place)];
+}
+
+function buildRequirementItems(place: Place): InfoItem[] {
+  const requirements = place.dogRequirements ?? [];
+  if (requirements.length === 0) {
+    return [];
+  }
+
+  return requirements.map((requirement) => {
+    const config = REQUIREMENT_CONFIG[requirement];
+    const paletteChoice = config?.palette ?? palette.gray;
+    const Icon = config?.icon ?? Dog;
+    const tooltip = config?.tooltip ?? `${requirement} 규정을 확인해 주세요.`;
+
+    return {
+      key: `requirement-${requirement}`,
+      label: "필수 준비물",
+      display: requirement,
+      tooltip,
+      Icon,
+      badgeBg: paletteChoice.badgeBg,
+      badgeColor: paletteChoice.badgeColor,
+      cardBg: paletteChoice.cardBg,
+      cardBorder: paletteChoice.cardBorder,
+      iconColor: paletteChoice.iconColor,
+    } satisfies InfoItem;
+  });
 }
 
 type PlaceInfoBadgesProps = {

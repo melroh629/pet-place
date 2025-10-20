@@ -41,6 +41,10 @@ export const WEIGHT_LIMIT_OPTIONS = ["제한 없음", "소형견", "중형견", 
 
 export type WeightLimitOption = (typeof WEIGHT_LIMIT_OPTIONS)[number];
 
+export const DOG_REQUIREMENT_OPTIONS = ["유모차 필수", "목줄 필수", "이동가방 필수"] as const;
+
+export type DogRequirement = (typeof DOG_REQUIREMENT_OPTIONS)[number];
+
 export type Place = {
   id: string;
   name: string;
@@ -50,6 +54,7 @@ export type Place = {
   parking?: ParkingOption;
   dogAccess?: DogAccessOption;
   weightLimit?: WeightLimitOption;
+  dogRequirements?: DogRequirement[];
   phone?: string;
   naverUrl?: string;
   instagramUrl?: string;
@@ -127,6 +132,7 @@ const PlaceSchema = z.object({
   parking: z.enum(PARKING_OPTIONS).optional(),
   dogAccess: z.enum(DOG_ACCESS_OPTIONS).optional(),
   weightLimit: z.enum(WEIGHT_LIMIT_OPTIONS).optional(),
+  dogRequirements: z.array(z.enum(DOG_REQUIREMENT_OPTIONS)).optional(),
   phone: z.string().trim().optional(),
   naverUrl: z.string().url().optional(),
   instagramUrl: z.string().url().optional(),
@@ -239,6 +245,30 @@ function normalizeWeightLimit(value: string | undefined): WeightLimitOption | un
   return matched as WeightLimitOption | undefined;
 }
 
+function normalizeDogRequirements(value: string | undefined): DogRequirement[] | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const normalized = value
+    .split(/[|,]/)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0);
+
+  if (normalized.length === 0) {
+    return undefined;
+  }
+
+  const requirements = normalized
+    .map((item) => {
+      const compact = item.replace(/\s+/g, "");
+      const matched = DOG_REQUIREMENT_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
+      return matched as DogRequirement | undefined;
+    })
+    .filter((item): item is DogRequirement => Boolean(item));
+
+  return requirements.length > 0 ? Array.from(new Set(requirements)) : undefined;
+}
+
 function toBoolean(value: string | undefined): boolean {
   if (!value) {
     return false;
@@ -295,6 +325,7 @@ function mapRowToPlace(row: RawRow): Place | null {
     parking: normalizeParking(pickString(row, "parking")),
     dogAccess: normalizeDogAccess(pickString(row, "dog_access")),
     weightLimit: normalizeWeightLimit(pickString(row, "weight_limit")),
+    dogRequirements: normalizeDogRequirements(pickString(row, "dog_requirements")),
     phone: pickString(row, "phone"),
     naverUrl: toOptionalUrl(pickString(row, "naver_url")),
     instagramUrl: toOptionalUrl(pickString(row, "insta")),
