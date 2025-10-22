@@ -5,9 +5,19 @@ import type { LucideIcon } from "lucide-react";
 import { Baby, CarFront, Dog, Link, ShoppingBag, Weight } from "lucide-react";
 import styled from "styled-components";
 
-import type { DogRequirement, Place } from "@/lib/places";
+import {
+  DOG_ACCESS_LABELS,
+  DOG_REQUIREMENT_LABELS,
+  PARKING_LABELS,
+  WEIGHT_LIMIT_LABELS,
+  type DogAccessOption,
+  type DogRequirement,
+  type ParkingOption,
+  type Place,
+  type WeightLimitOption,
+} from "@/lib/places";
 
-type InfoKey = "parking" | "dogAccess" | "weightLimit";
+type InfoKey = "parking" | "dog_access" | "weight_limit";
 
 type InfoVisualColors = {
   badgeBg: string;
@@ -86,29 +96,24 @@ const INFO_CONFIG: Record<InfoKey, InfoConfig> = {
     label: "주차",
     icon: CarFront,
     options: {
-      무료: {
+      available: {
         ...palette.green,
-        display: "무료",
-        tooltip: "주차를 무료로 이용할 수 있어요.",
+        display: PARKING_LABELS.available,
+        tooltip: "주차를 이용할 수 있어요.",
       },
-      유료: {
+      limited: {
         ...palette.amber,
-        display: "유료",
-        tooltip: "주차는 유료로 제공돼요.",
+        display: PARKING_LABELS.limited,
+        tooltip: "주차 공간이 제한적이에요.",
       },
-      불가: {
+      none: {
         ...palette.red,
-        display: "불가",
+        display: PARKING_LABELS.none,
         tooltip: "주차장이 제공되지 않아요.",
       },
-      "정보 없음": {
+      unknown: {
         ...palette.gray,
-        display: "정보 없음",
-        tooltip: "주차 정보가 아직 없어요.",
-      },
-      "확인 필요": {
-        ...palette.gray,
-        display: "확인 필요",
+        display: PARKING_LABELS.unknown,
         tooltip: "주차 정보를 확인해 주세요.",
       },
     },
@@ -118,33 +123,33 @@ const INFO_CONFIG: Record<InfoKey, InfoConfig> = {
       tooltip: "주차 정보를 확인해 주세요.",
     },
   },
-  dogAccess: {
+  dog_access: {
     label: "반려견 출입",
     icon: Dog,
     options: {
-      "모두 가능": {
+      all_allowed: {
         ...palette.green,
-        display: "모두 가능",
+        display: DOG_ACCESS_LABELS.all_allowed,
         tooltip: "실내·실외 모두 반려견과 함께할 수 있어요.",
       },
-      "실외만 가능": {
+      indoor_only: {
         ...palette.teal,
-        display: "실외만 가능",
+        display: DOG_ACCESS_LABELS.indoor_only,
+        tooltip: "실내 공간만 반려견과 이용할 수 있어요.",
+      },
+      outdoor_only: {
+        ...palette.teal,
+        display: DOG_ACCESS_LABELS.outdoor_only,
         tooltip: "실외 공간만 반려견과 이용할 수 있어요.",
       },
-      "일부 가능": {
+      partial: {
         ...palette.amber,
-        display: "일부 가능",
+        display: DOG_ACCESS_LABELS.partial,
         tooltip: "일부 공간만 반려견 출입이 가능해요.",
       },
-      "정보 없음": {
+      unknown: {
         ...palette.gray,
-        display: "정보 없음",
-        tooltip: "출입 정보를 확인해 주세요.",
-      },
-      "확인 필요": {
-        ...palette.gray,
-        display: "확인 필요",
+        display: DOG_ACCESS_LABELS.unknown,
         tooltip: "출입 정보를 확인해 주세요.",
       },
     },
@@ -154,38 +159,23 @@ const INFO_CONFIG: Record<InfoKey, InfoConfig> = {
       tooltip: "출입 정보를 확인해 주세요.",
     },
   },
-  weightLimit: {
+  weight_limit: {
     label: "체중 제한",
     icon: Weight,
     options: {
-      "제한 없음": {
+      no_limit: {
         ...palette.green,
-        display: "제한 없음",
+        display: WEIGHT_LIMIT_LABELS.no_limit,
         tooltip: "체중 제한 없이 입장할 수 있어요.",
       },
-      소형견: {
-        ...palette.blue,
-        display: "소형견",
-        tooltip: "소형견까지만 동반할 수 있어요.",
+      limited: {
+        ...palette.amber,
+        display: WEIGHT_LIMIT_LABELS.limited,
+        tooltip: "체중 제한이 있어요. 사전 확인이 필요해요.",
       },
-      중형견: {
-        ...palette.teal,
-        display: "중형견",
-        tooltip: "중형견까지 입장이 가능해요.",
-      },
-      대형견: {
-        ...palette.violet,
-        display: "대형견",
-        tooltip: "대형견까지 입장이 가능해요.",
-      },
-      "정보 없음": {
+      unknown: {
         ...palette.gray,
-        display: "정보 없음",
-        tooltip: "체중 제한 정보를 확인해 주세요.",
-      },
-      "확인 필요": {
-        ...palette.gray,
-        display: "확인 필요",
+        display: WEIGHT_LIMIT_LABELS.unknown,
         tooltip: "체중 제한 정보를 확인해 주세요.",
       },
     },
@@ -197,21 +187,34 @@ const INFO_CONFIG: Record<InfoKey, InfoConfig> = {
   },
 };
 
-const REQUIREMENT_CONFIG: Record<DogRequirement, { icon: LucideIcon; tooltip: string; palette: InfoVisualColors }> = {
-  "유모차 필수": {
-    icon: Baby,
-    tooltip: "반려견과 함께하려면 유모차가 필요해요.",
-    palette: palette.amber,
-  },
-  "목줄 필수": {
+const REQUIREMENT_CONFIG: Record<
+  DogRequirement,
+  { icon: LucideIcon; tooltip: string; palette: InfoVisualColors }
+> = {
+  none: {
     icon: Link,
-    tooltip: "목줄을 반드시 착용해야 해요.",
+    tooltip: DOG_REQUIREMENT_LABELS.none,
     palette: palette.green,
   },
-  "이동가방 필수": {
+  carrier_required: {
     icon: ShoppingBag,
-    tooltip: "이동가방(캐리어)이 필요해요.",
+    tooltip: DOG_REQUIREMENT_LABELS.carrier_required,
     palette: palette.blue,
+  },
+  stroller_required: {
+    icon: Baby,
+    tooltip: DOG_REQUIREMENT_LABELS.stroller_required,
+    palette: palette.amber,
+  },
+  cage_required: {
+    icon: ShoppingBag,
+    tooltip: DOG_REQUIREMENT_LABELS.cage_required,
+    palette: palette.violet,
+  },
+  unknown: {
+    icon: Dog,
+    tooltip: DOG_REQUIREMENT_LABELS.unknown,
+    palette: palette.gray,
   },
 };
 
@@ -229,10 +232,12 @@ type InfoItem = {
 };
 
 function buildInfoItems(place: Place): InfoItem[] {
-  const entries: Array<[InfoKey, string | undefined]> = [
+  const entries: Array<
+    [InfoKey, ParkingOption | DogAccessOption | WeightLimitOption | undefined]
+  > = [
     ["parking", place.parking],
-    ["dogAccess", place.dogAccess],
-    ["weightLimit", place.weightLimit],
+    ["dog_access", place.dog_access],
+    ["weight_limit", place.weight_limit],
   ];
 
   const baseItems = entries
@@ -270,21 +275,22 @@ function buildInfoItems(place: Place): InfoItem[] {
 }
 
 function buildRequirementItems(place: Place): InfoItem[] {
-  const requirements = place.dogRequirements ?? [];
-  if (requirements.length === 0) {
+  const requirement = place.dog_requirements;
+  if (!requirement || requirement === "none") {
     return [];
   }
 
-  return requirements.map((requirement) => {
-    const config = REQUIREMENT_CONFIG[requirement];
-    const paletteChoice = config?.palette ?? palette.gray;
-    const Icon = config?.icon ?? Dog;
-    const tooltip = config?.tooltip ?? `${requirement} 규정을 확인해 주세요.`;
+  const config = REQUIREMENT_CONFIG[requirement];
+  const paletteChoice = config?.palette ?? palette.gray;
+  const Icon = config?.icon ?? Dog;
+  const displayLabel = DOG_REQUIREMENT_LABELS[requirement] ?? requirement;
+  const tooltip = config?.tooltip ?? `${displayLabel} 규정을 확인해 주세요.`;
 
-    return {
+  return [
+    {
       key: `requirement-${requirement}`,
       label: "필수 준비물",
-      display: requirement,
+      display: displayLabel,
       tooltip,
       Icon,
       badgeBg: paletteChoice.badgeBg,
@@ -292,8 +298,8 @@ function buildRequirementItems(place: Place): InfoItem[] {
       cardBg: paletteChoice.cardBg,
       cardBorder: paletteChoice.cardBorder,
       iconColor: paletteChoice.iconColor,
-    } satisfies InfoItem;
-  });
+    } satisfies InfoItem,
+  ];
 }
 
 type PlaceInfoBadgesProps = {

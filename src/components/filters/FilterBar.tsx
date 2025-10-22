@@ -2,7 +2,12 @@ import styled from "styled-components";
 
 import { Select } from "antd";
 
-import type { Category, Region } from "@/lib/places";
+import {
+  CATEGORY_LABELS,
+  REGION_LABELS,
+  type Category,
+  type Region,
+} from "@/lib/places";
 
 const REGION_LABEL_ID = "filter-region-label";
 const CATEGORY_LABEL_ID = "filter-category-label";
@@ -32,7 +37,10 @@ export default function FilterBar({
           aria-labelledby={REGION_LABEL_ID}
           value={region}
           style={{ width: "100%" }}
-          options={regions.map((option) => ({ value: option, label: option }))}
+          options={regions.map((option) => ({
+            value: option,
+            label: option === "전체" ? "전체" : REGION_LABELS[option],
+          }))}
           onChange={(value) => onRegionChange(value as Region | "전체")}
           popupMatchSelectWidth={false}
         />
@@ -43,7 +51,10 @@ export default function FilterBar({
           aria-labelledby={CATEGORY_LABEL_ID}
           value={category}
           style={{ width: "100%" }}
-          options={categories.map((option) => ({ value: option, label: option }))}
+          options={categories.map((option) => ({
+            value: option,
+            label: option === "전체" ? "전체" : CATEGORY_LABELS[option],
+          }))}
           onChange={(value) => onCategoryChange(value as Category | "전체")}
           popupMatchSelectWidth={false}
         />

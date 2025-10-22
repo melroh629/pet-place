@@ -5,7 +5,13 @@ import { Button } from "antd";
 import CloseIcon from "@/components/icons/CloseIcon";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import PlaceInfoBadges from "@/components/places/PlaceInfoBadges";
-import { CATEGORY_COLORS, CATEGORY_EMOJI, type Place } from "@/lib/places";
+import {
+  CATEGORY_COLORS,
+  CATEGORY_EMOJI,
+  CATEGORY_LABELS,
+  REGION_LABELS,
+  type Place,
+} from "@/lib/places";
 
 const slideUp = keyframes`
   from {
@@ -28,10 +34,10 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
     return null;
   }
 
-  const emojiBg = CATEGORY_COLORS[place.category];
+  const emojiBg = CATEGORY_COLORS[place.category_list];
   const memo = place.memo?.trim();
-  const hasLink = Boolean(place.naverUrl);
-  const hasInstagram = Boolean(place.instagramUrl);
+  const hasLink = Boolean(place.naver_url);
+  const hasInstagram = Boolean(place.insta_url);
   const showActions = hasLink || hasInstagram;
 
   return (
@@ -48,12 +54,12 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
         <Content>
           <Header>
             <Emoji aria-hidden="true" $bgColor={emojiBg}>
-              {CATEGORY_EMOJI[place.category]}
+              {CATEGORY_EMOJI[place.category_list]}
             </Emoji>
             <Title>{place.name}</Title>
             <BadgeRow>
-              <Badge>{place.region}</Badge>
-              <Badge>{place.category}</Badge>
+              <Badge>{REGION_LABELS[place.region]}</Badge>
+              <Badge>{CATEGORY_LABELS[place.category_list]}</Badge>
             </BadgeRow>
             <Meta>{place.address}</Meta>
             {place.phone && <Meta>{place.phone}</Meta>}
@@ -78,7 +84,7 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
                   block
                   type="primary"
                   size="large"
-                  href={place.naverUrl!}
+                  href={place.naver_url!}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -89,10 +95,16 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
                 <Button
                   block
                   size="large"
-                  href={place.instagramUrl!}
+                  href={place.insta_url!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  icon={<InstagramIcon size={18} stroke="#007a4d" strokeWidth={1.4} />}
+                  icon={
+                    <InstagramIcon
+                      size={18}
+                      stroke="#007a4d"
+                      strokeWidth={1.4}
+                    />
+                  }
                 >
                   인스타그램 보기
                 </Button>

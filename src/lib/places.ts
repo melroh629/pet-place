@@ -1,372 +1,258 @@
-import Papa from "papaparse";
 import { z } from "zod";
 
+// ==================== ENUM 정의 ====================
+
 export const REGIONS = [
-  "서울",
-  "부산",
-  "대구",
-  "인천",
-  "광주",
-  "대전",
-  "울산",
-  "세종",
-  "경기",
-  "강원",
-  "충북",
-  "충남",
-  "전북",
-  "전남",
-  "경북",
-  "경남",
-  "제주",
+  "seoul",
+  "busan",
+  "daegu",
+  "incheon",
+  "gwangju",
+  "daejeon",
+  "ulsan",
+  "sejong",
+  "gyeonggi",
+  "gangwon",
+  "chungbuk",
+  "chungnam",
+  "jeonbuk",
+  "jeonnam",
+  "gyeongbuk",
+  "gyeongnam",
+  "jeju",
 ] as const;
 
 export type Region = (typeof REGIONS)[number];
 
-export const CATEGORIES = ["공원", "카페", "식당", "식물원", "숙소", "기타"] as const;
+export const REGION_LABELS: Record<Region, string> = {
+  seoul: "서울",
+  busan: "부산",
+  daegu: "대구",
+  incheon: "인천",
+  gwangju: "광주",
+  daejeon: "대전",
+  ulsan: "울산",
+  sejong: "세종",
+  gyeonggi: "경기",
+  gangwon: "강원",
+  chungbuk: "충북",
+  chungnam: "충남",
+  jeonbuk: "전북",
+  jeonnam: "전남",
+  gyeongbuk: "경북",
+  gyeongnam: "경남",
+  jeju: "제주",
+};
+
+export const CATEGORIES = [
+  "restaurant",
+  "cafe",
+  "park",
+  "hotel",
+  "playground",
+  "etc",
+] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
-export type PlaceSource = "직접 방문" | "전화 확인" | "추천" | "기타";
+export const CATEGORY_LABELS: Record<Category, string> = {
+  restaurant: "식당",
+  cafe: "카페",
+  park: "공원",
+  hotel: "숙소",
+  playground: "운동장",
+  etc: "기타",
+};
 
-export const PARKING_OPTIONS = ["무료", "유료", "불가"] as const;
+export const ADDRESS_TYPES = ["road", "jibun"] as const;
+export type AddressType = (typeof ADDRESS_TYPES)[number];
+
+export const ADDRESS_TYPE_LABELS: Record<AddressType, string> = {
+  road: "도로명",
+  jibun: "지번",
+};
+
+export const PARKING_OPTIONS = [
+  "available",
+  "limited",
+  "none",
+  "unknown",
+] as const;
 
 export type ParkingOption = (typeof PARKING_OPTIONS)[number];
 
-export const DOG_ACCESS_OPTIONS = ["모두 가능", "실외만 가능", "일부 가능"] as const;
+export const PARKING_LABELS: Record<ParkingOption, string> = {
+  available: "가능",
+  limited: "제한적",
+  none: "없음",
+  unknown: "모름",
+};
+
+export const DOG_ACCESS_OPTIONS = [
+  "all_allowed",
+  "indoor_only",
+  "outdoor_only",
+  "partial",
+  "unknown",
+] as const;
 
 export type DogAccessOption = (typeof DOG_ACCESS_OPTIONS)[number];
 
-export const WEIGHT_LIMIT_OPTIONS = ["제한 없음", "소형견", "중형견", "대형견"] as const;
+export const DOG_ACCESS_LABELS: Record<DogAccessOption, string> = {
+  all_allowed: "모두 가능",
+  indoor_only: "실내만 가능",
+  outdoor_only: "실외만 가능",
+  partial: "일부 구역만 가능",
+  unknown: "미확인",
+};
+
+export const WEIGHT_LIMIT_OPTIONS = [
+  "limited",
+  "no_limit",
+  "unknown",
+] as const;
 
 export type WeightLimitOption = (typeof WEIGHT_LIMIT_OPTIONS)[number];
 
-export const DOG_REQUIREMENT_OPTIONS = ["유모차 필수", "목줄 필수", "이동가방 필수"] as const;
+export const WEIGHT_LIMIT_LABELS: Record<WeightLimitOption, string> = {
+  limited: "무게 제한 있음",
+  no_limit: "무게 제한 없음",
+  unknown: "정보 없음",
+};
+
+export const DOG_REQUIREMENT_OPTIONS = [
+  "none",
+  "carrier_required",
+  "stroller_required",
+  "cage_required",
+  "unknown",
+] as const;
 
 export type DogRequirement = (typeof DOG_REQUIREMENT_OPTIONS)[number];
 
-export type Place = {
-  id: string;
-  name: string;
-  region: Region;
-  category: Category;
-  address: string;
-  parking?: ParkingOption;
-  dogAccess?: DogAccessOption;
-  weightLimit?: WeightLimitOption;
-  dogRequirements?: DogRequirement[];
-  phone?: string;
-  naverUrl?: string;
-  instagramUrl?: string;
-  verifiedAt?: string;
-  source: PlaceSource;
-  memo?: string;
-  photoUrl?: string;
-  approved: boolean;
+export const DOG_REQUIREMENT_LABELS: Record<DogRequirement, string> = {
+  none: "목줄만 착용 시 가능",
+  carrier_required: "이동가방 필요",
+  stroller_required: "유모차 필요",
+  cage_required: "케이지 필요",
+  unknown: "정보 없음",
 };
 
+export const BREED_LIMIT_OPTIONS = [
+  "limited",
+  "no_limit",
+  "except_aggressive",
+  "unknown",
+] as const;
+
+export type BreedLimit = (typeof BREED_LIMIT_OPTIONS)[number];
+
+export const BREED_LIMIT_LABELS: Record<BreedLimit, string> = {
+  limited: "견종 제한 있음",
+  no_limit: "견종 제한 없음",
+  except_aggressive: "맹견 제외",
+  unknown: "정보 없음",
+};
+
+// ==================== 타입 정의 ====================
+
+export type Place = {
+  id: string | number;
+  name: string;
+  region: Region;
+  category_list: Category;
+  address: string;
+  address_type?: AddressType;
+  phone?: string;
+  parking?: ParkingOption;
+  dog_access?: DogAccessOption;
+  dog_requirements?: DogRequirement;
+  weight_limit?: WeightLimitOption;
+  breed_limit?: BreedLimit;
+  naver_url?: string;
+  insta_url?: string;
+  verified_at?: string;
+  source?: string;
+  memo?: string;
+};
+
+// ==================== UI 관련 설정 ====================
+
 export const CATEGORY_EMOJI: Record<Category, string> = {
-  공원: "🌳",
-  카페: "☕",
-  식당: "🍽️",
-  식물원: "🌿",
-  숙소: "🏠",
-  기타: "🐶",
+  park: "🌳",
+  cafe: "☕",
+  restaurant: "🍽️",
+  playground: "🌿",
+  hotel: "🏠",
+  etc: "🐶",
 };
 
 export const CATEGORY_COLORS: Record<Category, string> = {
-  공원: "#DFF0D8",
-  카페: "#FFF5DA",
-  식당: "#FFE5CC",
-  식물원: "#E0F7F1",
-  숙소: "#E8E4FF",
-  기타: "#F5F5F5",
+  park: "#DFF0D8",
+  cafe: "#FFF5DA",
+  restaurant: "#FFE5CC",
+  playground: "#E0F7F1",
+  hotel: "#E8E4FF",
+  etc: "#F5F5F5",
 };
 
 export const CATEGORY_ICONS: Record<Category, string> = {
-  공원: "default_공원.png",
-  카페: "default_카페.png",
-  식당: "default_식당.png",
-  식물원: "default_식물원.png",
-  숙소: "default_숙소.png",
-  기타: "default_etc.png",
+  park: "default_공원.png",
+  cafe: "default_카페.png",
+  restaurant: "default_식당.png",
+  playground: "default_운동장.png",
+  hotel: "default_숙소.png",
+  etc: "default_etc.png",
 };
 
-const CATEGORY_ALIASES: Record<string, Category> = {
-  공원: "공원",
-  park: "공원",
-  parks: "공원",
-  카페: "카페",
-  cafe: "카페",
-  cafes: "카페",
-  coffee: "카페",
-  식당: "식당",
-  restaurant: "식당",
-  restaurants: "식당",
-  dining: "식당",
-  식물원: "식물원",
-  botanical: "식물원",
-  garden: "식물원",
-  gardens: "식물원",
-  숙소: "숙소",
-  stay: "숙소",
-  hotel: "숙소",
-  hotels: "숙소",
-  기타: "기타",
-  etc: "기타",
-  others: "기타",
-  기타공유: "기타",
-  playground: "기타",
-  activity: "기타",
-};
+// ==================== Zod 스키마 ====================
 
-const REGION_SET = new Set<Region>(REGIONS);
-const CATEGORY_SET = new Set<Category>(CATEGORIES);
-
-const PlaceSchema = z.object({
-  id: z.string().min(1),
+export const PlaceSchema = z.object({
+  id: z.union([z.string(), z.number()]),
   name: z.string().min(1),
   region: z.enum(REGIONS),
-  category: z.enum(CATEGORIES),
+  category_list: z.enum(CATEGORIES),
   address: z.string().min(1),
-  parking: z.enum(PARKING_OPTIONS).optional(),
-  dogAccess: z.enum(DOG_ACCESS_OPTIONS).optional(),
-  weightLimit: z.enum(WEIGHT_LIMIT_OPTIONS).optional(),
-  dogRequirements: z.array(z.enum(DOG_REQUIREMENT_OPTIONS)).optional(),
+  address_type: z.enum(ADDRESS_TYPES).optional(),
   phone: z.string().trim().optional(),
-  naverUrl: z.string().url().optional(),
-  instagramUrl: z.string().url().optional(),
-  verifiedAt: z
+  parking: z.enum(PARKING_OPTIONS).optional(),
+  dog_access: z.enum(DOG_ACCESS_OPTIONS).optional(),
+  dog_requirements: z.enum(DOG_REQUIREMENT_OPTIONS).optional(),
+  weight_limit: z.enum(WEIGHT_LIMIT_OPTIONS).optional(),
+  breed_limit: z.enum(BREED_LIMIT_OPTIONS).optional(),
+  naver_url: z.string().url().optional(),
+  insta_url: z.string().url().optional(),
+  verified_at: z
     .string()
     .refine((value) => !Number.isNaN(Date.parse(value)), {
       message: "Invalid date format",
     })
     .optional(),
-  source: z.enum(["직접 방문", "전화 확인", "추천", "기타"] as const),
+  source: z.string().optional(),
   memo: z.string().trim().optional(),
-  photoUrl: z.string().url().optional(),
-  approved: z.boolean(),
 });
 
-type RawRow = Record<string, string | null>;
-
-function pickString(row: RawRow, key: string): string | undefined {
-  const value = row[key];
-  if (typeof value !== "string") {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
-}
-
-function normalizeRegion(value: string | undefined): Region | null {
-  if (!value) {
-    return null;
-  }
-  if (REGION_SET.has(value as Region)) {
-    return value as Region;
-  }
-  return null;
-}
-
-function normalizeCategory(value: string | undefined): Category | null {
-  if (!value) {
-    return null;
-  }
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return null;
-  }
-  if (CATEGORY_SET.has(trimmed as Category)) {
-    return trimmed as Category;
-  }
-  const alias = CATEGORY_ALIASES[trimmed] ?? CATEGORY_ALIASES[trimmed.toLowerCase()];
-  if (alias) {
-    return alias;
-  }
-  return null;
-}
-
-function normalizeSource(value: string | undefined): PlaceSource {
-  if (!value) {
-    return "기타";
-  }
-  const compact = value.replace(/\s+/g, "");
-  switch (compact) {
-    case "직접방문":
-    case "직접방문확인":
-    case "직접방문및확인":
-      return "직접 방문";
-    case "전화확인":
-      return "전화 확인";
-    case "추천":
-      return "추천";
-    default:
-      return "기타";
-  }
-}
-
-function normalizeParking(value: string | undefined): ParkingOption | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-  const compact = trimmed.replace(/\s+/g, "");
-  const matched = PARKING_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
-  return matched as ParkingOption | undefined;
-}
-
-function normalizeDogAccess(value: string | undefined): DogAccessOption | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-  const compact = trimmed.replace(/\s+/g, "");
-  const matched = DOG_ACCESS_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
-  return matched as DogAccessOption | undefined;
-}
-
-function normalizeWeightLimit(value: string | undefined): WeightLimitOption | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-  const compact = trimmed.replace(/\s+/g, "");
-  const matched = WEIGHT_LIMIT_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
-  return matched as WeightLimitOption | undefined;
-}
-
-function normalizeDogRequirements(value: string | undefined): DogRequirement[] | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const normalized = value
-    .split(/[|,]/)
-    .map((part) => part.trim())
-    .filter((part) => part.length > 0);
-
-  if (normalized.length === 0) {
-    return undefined;
-  }
-
-  const requirements = normalized
-    .map((item) => {
-      const compact = item.replace(/\s+/g, "");
-      const matched = DOG_REQUIREMENT_OPTIONS.find((option) => compact === option.replace(/\s+/g, ""));
-      return matched as DogRequirement | undefined;
-    })
-    .filter((item): item is DogRequirement => Boolean(item));
-
-  return requirements.length > 0 ? Array.from(new Set(requirements)) : undefined;
-}
-
-function toBoolean(value: string | undefined): boolean {
-  if (!value) {
-    return false;
-  }
-  const normalized = value.trim().toLowerCase();
-  return normalized === "true" || normalized === "1" || normalized === "y" || normalized === "yes";
-}
-
-function toOptionalUrl(value: string | undefined): string | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-  if (!/^https?:\/\//.test(trimmed)) {
-    return undefined;
-  }
-  return trimmed;
-}
-
-function toOptionalDate(value: string | undefined): string | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-  return Number.isNaN(Date.parse(trimmed)) ? undefined : trimmed;
-}
-
-function mapRowToPlace(row: RawRow): Place | null {
-  const id = pickString(row, "id");
-  const name = pickString(row, "name");
-  const region = normalizeRegion(pickString(row, "region"));
-  const category = normalizeCategory(pickString(row, "category"));
-  const address = pickString(row, "address");
-
-  if (!id || !name || !region || !category || !address) {
-    return null;
-  }
-
-  const hasApprovedColumn = Object.prototype.hasOwnProperty.call(row, "approved");
-  const approvedCandidate = hasApprovedColumn ? pickString(row, "approved") : undefined;
-
-  const placeCandidate: Place = {
-    id,
-    name,
-    region,
-    category,
-    address,
-    parking: normalizeParking(pickString(row, "parking")),
-    dogAccess: normalizeDogAccess(pickString(row, "dog_access")),
-    weightLimit: normalizeWeightLimit(pickString(row, "weight_limit")),
-    dogRequirements: normalizeDogRequirements(pickString(row, "dog_requirements")),
-    phone: pickString(row, "phone"),
-    naverUrl: toOptionalUrl(pickString(row, "naver_url")),
-    instagramUrl: toOptionalUrl(pickString(row, "insta")),
-    verifiedAt: toOptionalDate(pickString(row, "verified_at")),
-    source: normalizeSource(pickString(row, "source")),
-    memo: pickString(row, "memo"),
-    photoUrl: toOptionalUrl(pickString(row, "photo_url")),
-    approved: hasApprovedColumn ? toBoolean(approvedCandidate) : true,
-  };
-
-  const parsed = PlaceSchema.safeParse(placeCandidate);
-  if (!parsed.success) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn("Invalid place row skipped", parsed.error.flatten());
-    }
-    return null;
-  }
-
-  return parsed.data;
-}
-
-export function parsePlacesCsv(csv: string): Place[] {
-  const result = Papa.parse(csv, {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: (header: string) => header.trim().toLowerCase(),
-    transform: (value: string) => value.trim(),
-  });
-
-  const parsed = result as { data?: RawRow[] };
-  const data = Array.isArray(parsed.data) ? parsed.data : [];
-
-  return data
-    .map((row) => mapRowToPlace(row))
-    .filter((item): item is Place => Boolean(item));
-}
+// ==================== 유틸리티 함수 ====================
 
 export function sortByVerifiedAt(list: Place[]): Place[] {
   return [...list].sort((a, b) => {
-    const aTime = a.verifiedAt ? Date.parse(a.verifiedAt) : 0;
-    const bTime = b.verifiedAt ? Date.parse(b.verifiedAt) : 0;
+    const aTime = a.verified_at ? Date.parse(a.verified_at) : 0;
+    const bTime = b.verified_at ? Date.parse(b.verified_at) : 0;
     return bTime - aTime;
   });
+}
+
+// 한글 라벨을 영어 enum 값으로 변환하는 헬퍼
+export function getCategoryKey(label: string): Category | null {
+  const entry = Object.entries(CATEGORY_LABELS).find(
+    ([, value]) => value === label
+  );
+  return entry ? (entry[0] as Category) : null;
+}
+
+export function getRegionKey(label: string): Region | null {
+  const entry = Object.entries(REGION_LABELS).find(
+    ([, value]) => value === label
+  );
+  return entry ? (entry[0] as Region) : null;
 }

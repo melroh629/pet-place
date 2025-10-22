@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-import { CATEGORY_COLORS, CATEGORY_EMOJI, type Place } from "@/lib/places";
+import {
+  CATEGORY_COLORS,
+  CATEGORY_EMOJI,
+  CATEGORY_LABELS,
+  REGION_LABELS,
+  type Place,
+} from "@/lib/places";
 
 import PlaceInfoBadges from "./PlaceInfoBadges";
 
@@ -10,19 +16,19 @@ type PlaceCardProps = {
 };
 
 export default function PlaceCard({ place, onSelect }: PlaceCardProps) {
-  const thumbColor = CATEGORY_COLORS[place.category];
+  const thumbColor = CATEGORY_COLORS[place.category_list];
 
   return (
     <Card onClick={() => onSelect(place)}>
       <CardThumb $bgColor={thumbColor}>
         <ThumbIcon aria-hidden="true">
-          {CATEGORY_EMOJI[place.category]}
+          {CATEGORY_EMOJI[place.category_list]}
         </ThumbIcon>
       </CardThumb>
       <CardBody>
         <BadgeRow>
-          <Badge>{place.region}</Badge>
-          <Badge>{place.category}</Badge>
+          <Badge>{REGION_LABELS[place.region]}</Badge>
+          <Badge>{CATEGORY_LABELS[place.category_list]}</Badge>
         </BadgeRow>
         <CardTitle>{place.name}</CardTitle>
         <CardAddress>{place.address}</CardAddress>

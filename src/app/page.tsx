@@ -29,7 +29,7 @@ export default function Page() {
     return allPlaces.filter((place) => {
       const matchesRegion = region === "전체" || place.region === region;
       const matchesCategory =
-        category === "전체" || place.category === category;
+        category === "전체" || place.category_list === category;
       return matchesRegion && matchesCategory;
     });
   }, [allPlaces, region, category]);
