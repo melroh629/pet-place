@@ -5,11 +5,7 @@ import { Button } from "antd";
 import CloseIcon from "@/components/icons/CloseIcon";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import PlaceInfoBadges from "@/components/places/PlaceInfoBadges";
-import {
-  CATEGORY_LABELS,
-  REGION_LABELS,
-  type Place,
-} from "@/lib/places";
+import { CATEGORY_LABELS, REGION_LABELS, type Place } from "@/lib/places";
 
 const slideUp = keyframes`
   from {
@@ -53,7 +49,8 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
             <Title>{place.name}</Title>
             <PlaceInfoBadges place={place} variant="compact" />
             <SubInfo>
-              {REGION_LABELS[place.region]} · {CATEGORY_LABELS[place.category_list]}
+              {REGION_LABELS[place.region]} ·{" "}
+              {CATEGORY_LABELS[place.category_list]}
             </SubInfo>
             <Meta>{place.address}</Meta>
             {place.phone && <Meta>{place.phone}</Meta>}
@@ -153,10 +150,7 @@ const CloseButton = styled.button`
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
   cursor: pointer;
   transition: background 0.16s ease, transform 0.16s ease;
 
