@@ -6,8 +6,7 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from("places_with_category")
-      .select("*")
-      .order("verified_at", { ascending: false });
+      .select("*");
 
     if (error) {
       console.error("Supabase error:", error);
