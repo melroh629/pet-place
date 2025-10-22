@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     default: "포 플레이스",
     template: "%s · 포 플레이스",
   },
-  description: "반려동물과 함께 방문하기 좋은 장소를 큐레이션한 목록",
+  description: "사람과 반려동물이 편히 머무는 공간을 고릅니다",
   openGraph: {
     title: "포 플레이스",
-    description: "반려동물과 함께 방문하기 좋은 장소를 큐레이션한 목록",
+    description: "사람과 반려동물이 편히 머무는 공간을 고릅니다",
     images: [
       {
         url: "/og-image.png",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "포 플레이스",
-    description: "반려동물과 함께 방문하기 좋은 장소를 큐레이션한 목록",
+    description: "사람과 반려동물이 편히 머무는 공간을 고릅니다",
     images: [
       {
         url: "/og-image.png",
