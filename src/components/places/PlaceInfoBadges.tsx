@@ -2,7 +2,14 @@
 
 import { Tag, Tooltip } from "antd";
 import type { LucideIcon } from "lucide-react";
-import { Baby, CarFront, Dog, Link, ShoppingBag, Weight } from "lucide-react";
+import {
+  Baby,
+  CarFront,
+  Dog,
+  Megaphone,
+  ShoppingBag,
+  Weight,
+} from "lucide-react";
 import styled from "styled-components";
 
 import {
@@ -192,7 +199,7 @@ const REQUIREMENT_CONFIG: Record<
   { icon: LucideIcon; tooltip: string; palette: InfoVisualColors }
 > = {
   none: {
-    icon: Link,
+    icon: Megaphone,
     tooltip: DOG_REQUIREMENT_LABELS.none,
     palette: palette.green,
   },
@@ -233,7 +240,7 @@ type InfoItem = {
 
 function buildInfoItems(place: Place): InfoItem[] {
   const entries: Array<
-    [InfoKey, ParkingOption | DogAccessOption | WeightLimitOption | undefined]
+    [InfoKey, ParkingOption | DogAccessOption | WeightLimitOption | null | undefined]
   > = [
     ["parking", place.parking],
     ["dog_access", place.dog_access],
@@ -276,7 +283,7 @@ function buildInfoItems(place: Place): InfoItem[] {
 
 function buildRequirementItems(place: Place): InfoItem[] {
   const requirement = place.dog_requirements;
-  if (!requirement || requirement === "none") {
+  if (!requirement || requirement === "unknown") {
     return [];
   }
 
@@ -289,7 +296,7 @@ function buildRequirementItems(place: Place): InfoItem[] {
   return [
     {
       key: `requirement-${requirement}`,
-      label: "필수 준비물",
+      label: "준비물",
       display: displayLabel,
       tooltip,
       Icon,

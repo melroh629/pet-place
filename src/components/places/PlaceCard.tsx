@@ -8,8 +8,6 @@ import {
   type Place,
 } from "@/lib/places";
 
-import PlaceInfoBadges from "./PlaceInfoBadges";
-
 type PlaceCardProps = {
   place: Place;
   onSelect: (place: Place) => void;
@@ -32,7 +30,6 @@ export default function PlaceCard({ place, onSelect }: PlaceCardProps) {
         </BadgeRow>
         <CardTitle>{place.name}</CardTitle>
         <CardAddress>{place.address}</CardAddress>
-        <PlaceInfoBadges place={place} variant="compact" />
       </CardBody>
     </Card>
   );

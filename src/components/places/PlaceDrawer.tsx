@@ -6,8 +6,6 @@ import CloseIcon from "@/components/icons/CloseIcon";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import PlaceInfoBadges from "@/components/places/PlaceInfoBadges";
 import {
-  CATEGORY_COLORS,
-  CATEGORY_EMOJI,
   CATEGORY_LABELS,
   REGION_LABELS,
   type Place,
@@ -34,7 +32,6 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
     return null;
   }
 
-  const emojiBg = CATEGORY_COLORS[place.category_list];
   const memo = place.memo?.trim();
   const hasLink = Boolean(place.naver_url);
   const hasInstagram = Boolean(place.insta_url);
@@ -53,14 +50,11 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
         </CloseButton>
         <Content>
           <Header>
-            <Emoji aria-hidden="true" $bgColor={emojiBg}>
-              {CATEGORY_EMOJI[place.category_list]}
-            </Emoji>
             <Title>{place.name}</Title>
-            <BadgeRow>
-              <Badge>{REGION_LABELS[place.region]}</Badge>
-              <Badge>{CATEGORY_LABELS[place.category_list]}</Badge>
-            </BadgeRow>
+            <PlaceInfoBadges place={place} variant="compact" />
+            <SubInfo>
+              {REGION_LABELS[place.region]} · {CATEGORY_LABELS[place.category_list]}
+            </SubInfo>
             <Meta>{place.address}</Meta>
             {place.phone && <Meta>{place.phone}</Meta>}
           </Header>
@@ -71,11 +65,6 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
               <SectionText>{memo}</SectionText>
             </Section>
           )}
-
-          <Section>
-            <SectionLabel>이용 정보</SectionLabel>
-            <PlaceInfoBadges place={place} variant="grid" />
-          </Section>
 
           {showActions && (
             <Actions>
@@ -126,6 +115,11 @@ const Overlay = styled.div`
   background: rgba(26, 26, 26, 0.4);
   padding: 0;
   z-index: 100;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    padding: 24px;
+  }
 `;
 
 const Drawer = styled.div`
@@ -140,6 +134,14 @@ const Drawer = styled.div`
   display: flex;
   flex-direction: column;
   animation: ${slideUp} 220ms ease-out;
+
+  @media (min-width: 768px) {
+    max-width: 500px;
+    max-height: 80vh;
+    margin: 0;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const CloseButton = styled.button`
@@ -178,48 +180,24 @@ const Header = styled.header`
   gap: 12px;
 `;
 
-const Emoji = styled.span<{ $bgColor: string }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  background: ${(props) => props.$bgColor};
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  font-size: 30px;
-`;
-
 const Title = styled.h3`
   margin: 0;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #111827;
 `;
 
-const BadgeRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-`;
-
-const Badge = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  background: #e8fff4;
-  color: #007a4d;
+const SubInfo = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
 `;
 
 const Meta = styled.p`
   margin: 0;
   font-size: 14px;
-  color: #555555;
+  color: #374151;
   line-height: 1.6;
 `;
 

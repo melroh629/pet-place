@@ -162,18 +162,18 @@ export type Place = {
   region: Region;
   category_list: Category;
   address: string;
-  address_type?: AddressType;
-  phone?: string;
-  parking?: ParkingOption;
-  dog_access?: DogAccessOption;
-  dog_requirements?: DogRequirement;
-  weight_limit?: WeightLimitOption;
-  breed_limit?: BreedLimit;
-  naver_url?: string;
-  insta_url?: string;
-  verified_at?: string;
-  source?: string;
-  memo?: string;
+  address_type?: AddressType | null;
+  phone?: string | null;
+  parking?: ParkingOption | null;
+  dog_access?: DogAccessOption | null;
+  dog_requirements?: DogRequirement | null;
+  weight_limit?: WeightLimitOption | null;
+  breed_limit?: BreedLimit | null;
+  naver_url?: string | null;
+  insta_url?: string | null;
+  verified_at?: string | null;
+  source?: string | null;
+  memo?: string | null;
 };
 
 // ==================== UI 관련 설정 ====================
@@ -213,23 +213,23 @@ export const PlaceSchema = z.object({
   region: z.enum(REGIONS),
   category_list: z.enum(CATEGORIES),
   address: z.string().min(1),
-  address_type: z.enum(ADDRESS_TYPES).optional(),
-  phone: z.string().trim().optional(),
-  parking: z.enum(PARKING_OPTIONS).optional(),
-  dog_access: z.enum(DOG_ACCESS_OPTIONS).optional(),
-  dog_requirements: z.enum(DOG_REQUIREMENT_OPTIONS).optional(),
-  weight_limit: z.enum(WEIGHT_LIMIT_OPTIONS).optional(),
-  breed_limit: z.enum(BREED_LIMIT_OPTIONS).optional(),
-  naver_url: z.string().url().optional(),
-  insta_url: z.string().url().optional(),
+  address_type: z.enum(ADDRESS_TYPES).nullish(),
+  phone: z.string().trim().nullish(),
+  parking: z.enum(PARKING_OPTIONS).nullish(),
+  dog_access: z.enum(DOG_ACCESS_OPTIONS).nullish(),
+  dog_requirements: z.enum(DOG_REQUIREMENT_OPTIONS).nullish(),
+  weight_limit: z.enum(WEIGHT_LIMIT_OPTIONS).nullish(),
+  breed_limit: z.enum(BREED_LIMIT_OPTIONS).nullish(),
+  naver_url: z.string().url().nullish(),
+  insta_url: z.string().url().nullish(),
   verified_at: z
     .string()
     .refine((value) => !Number.isNaN(Date.parse(value)), {
       message: "Invalid date format",
     })
-    .optional(),
-  source: z.string().optional(),
-  memo: z.string().trim().optional(),
+    .nullish(),
+  source: z.string().nullish(),
+  memo: z.string().trim().nullish(),
 });
 
 // ==================== 유틸리티 함수 ====================

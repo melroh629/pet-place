@@ -21,6 +21,8 @@ export async function GET() {
       return NextResponse.json({ places: [] });
     }
 
+    console.log(`📊 Total rows from Supabase: ${data.length}`);
+
     // Validate data
     const validPlaces: Place[] = [];
     for (const row of data) {
@@ -28,12 +30,12 @@ export async function GET() {
       if (result.success) {
         validPlaces.push(result.data);
       } else {
-        if (process.env.NODE_ENV !== "production") {
-          console.warn("Invalid place row skipped:", row);
-          console.warn("Validation errors:", result.error.format());
-        }
+        console.warn("❌ Invalid place row skipped:", row.name || row.id);
+        console.warn("Validation errors:", result.error.format());
       }
     }
+
+    console.log(`✅ Valid places: ${validPlaces.length}`);
 
     return NextResponse.json({ places: validPlaces });
   } catch (err) {
