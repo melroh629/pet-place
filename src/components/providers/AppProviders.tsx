@@ -4,14 +4,14 @@ import { ConfigProvider } from "antd";
 import type { ThemeConfig } from "antd";
 import { useMemo } from "react";
 
-const BRAND_PRIMARY = "#00c27a";
+import { baseColors, brandColors } from "@/styles/colors";
 
 const baseTheme: ThemeConfig = {
   token: {
-    colorPrimary: BRAND_PRIMARY,
-    colorInfo: BRAND_PRIMARY,
-    colorSuccess: BRAND_PRIMARY,
-    colorLink: BRAND_PRIMARY,
+    colorPrimary: brandColors.primary,
+    colorInfo: brandColors.primary,
+    colorSuccess: brandColors.primary,
+    colorLink: brandColors.primary,
     borderRadius: 12,
     fontFamily: "'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif",
   },
@@ -20,17 +20,17 @@ const baseTheme: ThemeConfig = {
       borderRadius: 14,
       fontWeight: 600,
       controlHeight: 44,
-      controlOutline: `${BRAND_PRIMARY}33`,
+      controlOutline: brandColors.primaryAlpha[33],
     },
     Select: {
       borderRadius: 14,
       controlHeight: 44,
-      controlOutline: `${BRAND_PRIMARY}33`,
-      colorPrimary: BRAND_PRIMARY,
+      controlOutline: brandColors.primaryAlpha[33],
+      colorPrimary: brandColors.primary,
     },
     Tooltip: {
       borderRadius: 10,
-      colorText: "#ffffff",
+      colorText: baseColors.white,
     },
   },
 };

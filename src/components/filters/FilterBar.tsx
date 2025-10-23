@@ -8,6 +8,7 @@ import {
   type Category,
   type Region,
 } from "@/lib/places";
+import { baseColors } from "@/styles/colors";
 
 const REGION_LABEL_ID = "filter-region-label";
 const CATEGORY_LABEL_ID = "filter-category-label";
@@ -69,9 +70,9 @@ const FilterWrap = styled.section`
   gap: 14px;
   padding: clamp(16px, 3vw, 20px);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #e5e5e5;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  background: ${baseColors.overlay.strong};
+  border: 1px solid ${baseColors.border.solid};
+  box-shadow: ${baseColors.shadow.light};
 `;
 
 const Field = styled.div`
@@ -81,11 +82,11 @@ const Field = styled.div`
   min-width: 160px;
   font-size: 13px;
   font-weight: 600;
-  color: #555555;
+  color: ${baseColors.text.secondary};
 `;
 
 const Label = styled.label`
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #9e9e9e;
+  color: ${baseColors.text.quaternary};
 `;

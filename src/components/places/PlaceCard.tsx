@@ -7,6 +7,7 @@ import {
   REGION_LABELS,
   type Place,
 } from "@/lib/places";
+import { baseColors, brandColors } from "@/styles/colors";
 
 type PlaceCardProps = {
   place: Place;
@@ -40,10 +41,10 @@ const Card = styled.article`
   gap: 18px;
   align-items: stretch;
   border-radius: 22px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  background: ${baseColors.white};
+  border: 1px solid ${baseColors.border.light};
   padding: 18px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  box-shadow: ${baseColors.shadow.normal};
   cursor: pointer;
   transition: transform 0.16s ease, box-shadow 0.16s ease;
 
@@ -58,7 +59,7 @@ const CardThumb = styled.div<{ $bgColor: string }>`
   border-radius: 20px;
   flex-shrink: 0;
   background: ${(props) => props.$bgColor};
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid ${baseColors.border.normal};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,22 +92,22 @@ const Badge = styled.span`
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  background: #e8fff4;
-  color: #007a4d;
+  background: ${brandColors.primaryLight};
+  color: ${brandColors.primaryDark};
 `;
 
 const CardTitle = styled.h2`
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: ${baseColors.text.primaryDark};
   line-height: 1.4;
 `;
 
 const CardAddress = styled.p`
   margin: 0;
   font-size: 13px;
-  color: #777777;
+  color: ${baseColors.text.tertiary};
   line-height: 1.45;
   white-space: nowrap;
   overflow: hidden;

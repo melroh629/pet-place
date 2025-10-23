@@ -23,6 +23,7 @@ import {
   type Place,
   type WeightLimitOption,
 } from "@/lib/places";
+import { baseColors, placeInfoColors } from "@/styles/colors";
 
 type InfoKey = "parking" | "dog_access" | "weight_limit";
 
@@ -47,55 +48,13 @@ type InfoConfig = {
 };
 
 const palette: Record<string, InfoVisualColors> = {
-  green: {
-    badgeBg: "rgba(0, 194, 122, 0.16)",
-    badgeColor: "#0f5132",
-    cardBg: "#f2fbf7",
-    cardBorder: "rgba(0, 194, 122, 0.26)",
-    iconColor: "#00a86b",
-  },
-  amber: {
-    badgeBg: "rgba(255, 193, 7, 0.18)",
-    badgeColor: "#8a5300",
-    cardBg: "#fff8e6",
-    cardBorder: "rgba(255, 193, 7, 0.3)",
-    iconColor: "#d97706",
-  },
-  red: {
-    badgeBg: "rgba(244, 63, 94, 0.16)",
-    badgeColor: "#9f1239",
-    cardBg: "#fff1f4",
-    cardBorder: "rgba(244, 63, 94, 0.28)",
-    iconColor: "#dc2626",
-  },
-  teal: {
-    badgeBg: "rgba(13, 148, 136, 0.18)",
-    badgeColor: "#0f766e",
-    cardBg: "#e6f9f7",
-    cardBorder: "rgba(13, 148, 136, 0.28)",
-    iconColor: "#0d9488",
-  },
-  blue: {
-    badgeBg: "rgba(59, 130, 246, 0.18)",
-    badgeColor: "#1d4ed8",
-    cardBg: "#eef4ff",
-    cardBorder: "rgba(59, 130, 246, 0.26)",
-    iconColor: "#2563eb",
-  },
-  violet: {
-    badgeBg: "rgba(167, 139, 250, 0.2)",
-    badgeColor: "#5b21b6",
-    cardBg: "#f4f1ff",
-    cardBorder: "rgba(167, 139, 250, 0.28)",
-    iconColor: "#7c3aed",
-  },
-  gray: {
-    badgeBg: "#eef2f0",
-    badgeColor: "#52625d",
-    cardBg: "#f7f9f8",
-    cardBorder: "rgba(120, 136, 132, 0.24)",
-    iconColor: "#4a5c56",
-  },
+  green: placeInfoColors.free,
+  amber: placeInfoColors.paid,
+  red: placeInfoColors.leashFree,
+  teal: placeInfoColors.outdoor,
+  blue: placeInfoColors.indoor,
+  violet: placeInfoColors.parking,
+  gray: placeInfoColors.general,
 };
 
 const INFO_CONFIG: Record<InfoKey, InfoConfig> = {
@@ -411,7 +370,7 @@ const IconBubble = styled.span<{ $color: string }>`
   width: 38px;
   height: 38px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.74);
+  background: ${baseColors.overlay.light};
   color: ${(props) => props.$color};
 `;
 
@@ -425,12 +384,12 @@ const InfoLabel = styled.span`
   font-size: 12px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #6a7c76;
+  color: ${baseColors.text.secondary};
   font-weight: 600;
 `;
 
 const InfoValue = styled.span`
   font-size: 16px;
   font-weight: 700;
-  color: #132d23;
+  color: ${baseColors.text.primaryDark};
 `;

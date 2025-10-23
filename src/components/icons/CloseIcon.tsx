@@ -1,6 +1,8 @@
 import type { ComponentProps } from "react";
 import { X } from "lucide-react";
 
+import { iconColors } from "@/styles/colors";
+
 export type CloseIconProps = {
   size?: number;
   stroke?: string;
@@ -9,7 +11,7 @@ export type CloseIconProps = {
 
 export default function CloseIcon({
   size = 20,
-  stroke = "#1f2937",
+  stroke = iconColors.default,
   strokeWidth = 1.6,
   ...rest
 }: CloseIconProps) {

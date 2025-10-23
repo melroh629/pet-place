@@ -6,6 +6,7 @@ import CloseIcon from "@/components/icons/CloseIcon";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import PlaceInfoBadges from "@/components/places/PlaceInfoBadges";
 import { CATEGORY_LABELS, REGION_LABELS, type Place } from "@/lib/places";
+import { baseColors, brandColors, iconColors } from "@/styles/colors";
 
 const slideUp = keyframes`
   from {
@@ -42,7 +43,7 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
         onClick={(event) => event.stopPropagation()}
       >
         <CloseButton type="button" onClick={onClose} aria-label="닫기">
-          <CloseIcon size={20} stroke="#1f2937" strokeWidth={1.8} />
+          <CloseIcon size={20} stroke={iconColors.default} strokeWidth={1.8} />
         </CloseButton>
         <Content>
           <Header>
@@ -87,7 +88,7 @@ export default function PlaceDrawer({ place, onClose }: PlaceDrawerProps) {
                   icon={
                     <InstagramIcon
                       size={18}
-                      stroke="#007a4d"
+                      stroke={brandColors.primaryDark}
                       strokeWidth={1.4}
                     />
                   }
@@ -109,7 +110,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  background: rgba(26, 26, 26, 0.4);
+  background: ${baseColors.overlay.backdrop};
   padding: 0;
   z-index: 100;
 
@@ -121,13 +122,13 @@ const Overlay = styled.div`
 
 const Drawer = styled.div`
   position: relative;
-  width: min(640px, 100%);
-  margin: 0 clamp(16px, 6vw, 48px);
+  // width: min(640px, 100%);
+  // margin: 0 clamp(16px, 6vw, 48px);
   max-height: calc(100vh - 16px);
-  background: #ffffff;
+  background: ${baseColors.white};
   border-radius: 26px 26px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.14);
+  border: 1px solid ${baseColors.border.normal};
+  box-shadow: ${baseColors.shadow.medium};
   display: flex;
   flex-direction: column;
   animation: ${slideUp} 220ms ease-out;
@@ -137,7 +138,7 @@ const Drawer = styled.div`
     max-height: 80vh;
     margin: 0;
     border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: ${baseColors.shadow.strong};
   }
 `;
 
@@ -155,13 +156,14 @@ const CloseButton = styled.button`
   transition: background 0.16s ease, transform 0.16s ease;
 
   &:hover {
-    background: #f2f6f4;
+    background: ${brandColors.primarySubtle};
     transform: scale(1.02);
   }
 `;
 
 const Content = styled.div`
   padding: 28px 24px 32px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -178,20 +180,20 @@ const Title = styled.h3`
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  color: #111827;
+  color: ${baseColors.text.primary};
 `;
 
 const SubInfo = styled.p`
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: ${baseColors.text.muted};
   line-height: 1.5;
 `;
 
 const Meta = styled.p`
   margin: 0;
   font-size: 14px;
-  color: #374151;
+  color: ${baseColors.text.subtle};
   line-height: 1.6;
 `;
 
@@ -206,7 +208,7 @@ const SectionLabel = styled.h4`
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: #9e9e9e;
+  color: ${baseColors.text.quaternary};
   text-transform: uppercase;
 `;
 
@@ -214,7 +216,7 @@ const SectionText = styled.p`
   margin: 0;
   font-size: 15px;
   line-height: 1.65;
-  color: #1a1a1a;
+  color: ${baseColors.text.primaryDark};
 `;
 
 const Actions = styled.div`

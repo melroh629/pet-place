@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import type { Place } from "@/lib/places";
+import { baseColors, brandColors, stateColors } from "@/styles/colors";
 
 import PlaceCard from "./PlaceCard";
 
@@ -36,7 +37,7 @@ const Summary = styled.span`
   display: block;
   margin-bottom: 16px;
   font-size: 14px;
-  color: #6c7a73;
+  color: ${baseColors.text.secondary};
 `;
 
 const Grid = styled.div`
@@ -52,16 +53,16 @@ const StateMessage = styled.div<{ $variant: "error" | "info" }>`
   margin-bottom: 16px;
   ${(props) =>
     props.$variant === "error"
-      ? "background: rgba(248, 113, 113, 0.12); color: #b91c1c;"
-      : "background: rgba(0, 194, 122, 0.12); color: #007a4d;"}
+      ? `background: ${stateColors.error.bg}; color: ${stateColors.error.text};`
+      : `background: ${stateColors.success.bg}; color: ${stateColors.success.text};`}
 `;
 
 const EmptyState = styled.div`
   grid-column: 1 / -1;
   padding: 56px 0;
   text-align: center;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px dashed #d5e4db;
+  background: ${baseColors.overlay.medium};
+  border: 1px dashed ${baseColors.border.medium};
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -72,16 +73,16 @@ const EmptyState = styled.div`
 const EmptyTitle = styled.h3`
   margin: 0;
   font-size: 17px;
-  color: #1a1a1a;
+  color: ${baseColors.text.primaryDark};
 `;
 
 const EmptyText = styled.p`
   margin: 0;
   font-size: 14px;
-  color: #777777;
+  color: ${baseColors.text.tertiary};
 `;
 
 const LoadingState = styled(EmptyState)`
   font-size: 15px;
-  color: #007a4d;
+  color: ${brandColors.primaryDark};
 `;
