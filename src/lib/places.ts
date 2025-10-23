@@ -1,28 +1,30 @@
 import { z } from "zod";
 
-// ==================== ENUM 정의 ====================
+// 타입 정의는 @/types에서 import
+export * from "@/types/place";
+import type {
+  Place,
+  Region,
+  Category,
+  AddressType,
+  ParkingOption,
+  DogAccessOption,
+  WeightLimitOption,
+  DogRequirement,
+  BreedLimit,
+} from "@/types/place";
+import {
+  REGIONS,
+  CATEGORIES,
+  ADDRESS_TYPES,
+  PARKING_OPTIONS,
+  DOG_ACCESS_OPTIONS,
+  WEIGHT_LIMIT_OPTIONS,
+  DOG_REQUIREMENT_OPTIONS,
+  BREED_LIMIT_OPTIONS,
+} from "@/types/place";
 
-export const REGIONS = [
-  "seoul",
-  "busan",
-  "daegu",
-  "incheon",
-  "gwangju",
-  "daejeon",
-  "ulsan",
-  "sejong",
-  "gyeonggi",
-  "gangwon",
-  "chungbuk",
-  "chungnam",
-  "jeonbuk",
-  "jeonnam",
-  "gyeongbuk",
-  "gyeongnam",
-  "jeju",
-] as const;
-
-export type Region = (typeof REGIONS)[number];
+// ==================== 라벨 정의 ====================
 
 export const REGION_LABELS: Record<Region, string> = {
   seoul: "서울",
@@ -44,17 +46,6 @@ export const REGION_LABELS: Record<Region, string> = {
   jeju: "제주",
 };
 
-export const CATEGORIES = [
-  "restaurant",
-  "cafe",
-  "park",
-  "hotel",
-  "playground",
-  "etc",
-] as const;
-
-export type Category = (typeof CATEGORIES)[number];
-
 export const CATEGORY_LABELS: Record<Category, string> = {
   restaurant: "식당",
   cafe: "카페",
@@ -64,22 +55,10 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   etc: "기타",
 };
 
-export const ADDRESS_TYPES = ["road", "jibun"] as const;
-export type AddressType = (typeof ADDRESS_TYPES)[number];
-
 export const ADDRESS_TYPE_LABELS: Record<AddressType, string> = {
   road: "도로명",
   jibun: "지번",
 };
-
-export const PARKING_OPTIONS = [
-  "available",
-  "limited",
-  "none",
-  "unknown",
-] as const;
-
-export type ParkingOption = (typeof PARKING_OPTIONS)[number];
 
 export const PARKING_LABELS: Record<ParkingOption, string> = {
   available: "가능",
@@ -87,16 +66,6 @@ export const PARKING_LABELS: Record<ParkingOption, string> = {
   none: "없음",
   unknown: "모름",
 };
-
-export const DOG_ACCESS_OPTIONS = [
-  "all_allowed",
-  "indoor_only",
-  "outdoor_only",
-  "partial",
-  "unknown",
-] as const;
-
-export type DogAccessOption = (typeof DOG_ACCESS_OPTIONS)[number];
 
 export const DOG_ACCESS_LABELS: Record<DogAccessOption, string> = {
   all_allowed: "모두 가능",
@@ -106,29 +75,11 @@ export const DOG_ACCESS_LABELS: Record<DogAccessOption, string> = {
   unknown: "미확인",
 };
 
-export const WEIGHT_LIMIT_OPTIONS = [
-  "limited",
-  "no_limit",
-  "unknown",
-] as const;
-
-export type WeightLimitOption = (typeof WEIGHT_LIMIT_OPTIONS)[number];
-
 export const WEIGHT_LIMIT_LABELS: Record<WeightLimitOption, string> = {
   limited: "무게 제한 있음",
   no_limit: "무게 제한 없음",
   unknown: "정보 없음",
 };
-
-export const DOG_REQUIREMENT_OPTIONS = [
-  "none",
-  "carrier_required",
-  "stroller_required",
-  "cage_required",
-  "unknown",
-] as const;
-
-export type DogRequirement = (typeof DOG_REQUIREMENT_OPTIONS)[number];
 
 export const DOG_REQUIREMENT_LABELS: Record<DogRequirement, string> = {
   none: "목줄만 착용 시 가능",
@@ -138,42 +89,11 @@ export const DOG_REQUIREMENT_LABELS: Record<DogRequirement, string> = {
   unknown: "정보 없음",
 };
 
-export const BREED_LIMIT_OPTIONS = [
-  "limited",
-  "no_limit",
-  "except_aggressive",
-  "unknown",
-] as const;
-
-export type BreedLimit = (typeof BREED_LIMIT_OPTIONS)[number];
-
 export const BREED_LIMIT_LABELS: Record<BreedLimit, string> = {
   limited: "견종 제한 있음",
   no_limit: "견종 제한 없음",
   except_aggressive: "맹견 제외",
   unknown: "정보 없음",
-};
-
-// ==================== 타입 정의 ====================
-
-export type Place = {
-  id: string | number;
-  name: string;
-  region: Region;
-  category_list: Category;
-  address: string;
-  address_type?: AddressType | null;
-  phone?: string | null;
-  parking?: ParkingOption | null;
-  dog_access?: DogAccessOption | null;
-  dog_requirements?: DogRequirement | null;
-  weight_limit?: WeightLimitOption | null;
-  breed_limit?: BreedLimit | null;
-  naver_url?: string | null;
-  insta_url?: string | null;
-  verified_at?: string | null;
-  source?: string | null;
-  memo?: string | null;
 };
 
 // ==================== UI 관련 설정 ====================
@@ -187,14 +107,11 @@ export const CATEGORY_EMOJI: Record<Category, string> = {
   etc: "🐶",
 };
 
-export const CATEGORY_COLORS: Record<Category, string> = {
-  park: "#DFF0D8",
-  cafe: "#FFF5DA",
-  restaurant: "#FFE5CC",
-  playground: "#E0F7F1",
-  hotel: "#E8E4FF",
-  etc: "#F5F5F5",
-};
+// 카테고리 색상은 @/styles/colors에서 import하여 사용
+// export된 categoryColors를 재사용
+import { categoryColors } from "@/styles/colors";
+
+export const CATEGORY_COLORS: Record<Category, string> = categoryColors;
 
 export const CATEGORY_ICONS: Record<Category, string> = {
   park: "default_공원.png",

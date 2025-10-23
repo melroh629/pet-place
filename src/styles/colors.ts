@@ -85,6 +85,12 @@ export const categoryColors = {
   etc: "#F5F5F5",
 } as const;
 
+/**
+ * @deprecated Use categoryColors instead
+ * Kept for backward compatibility
+ */
+export const CATEGORY_COLORS = categoryColors;
+
 // ============================================
 // 장소 정보 뱃지 컬러 (상세)
 // ============================================
