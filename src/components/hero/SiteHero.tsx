@@ -6,7 +6,7 @@ export default function SiteHero() {
   return (
     <HeroSection>
       <Badge>Paw Place</Badge>
-      <Title>포 플레이스</Title>
+      <Title>포플레이스</Title>
       <Subtitle>
         반려동물과 함께했던 좋은 장소들을 기록하고 소개합니다.
         <br />
