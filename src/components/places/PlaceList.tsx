@@ -11,10 +11,9 @@ type PlaceListProps = {
   places: Place[];
   loading: boolean;
   error: string | null;
-  onSelect: (place: Place) => void;
 };
 
-function PlaceList({ places, loading, error, onSelect }: PlaceListProps) {
+function PlaceList({ places, loading, error }: PlaceListProps) {
   const summaryText = useMemo(
     () =>
       loading
@@ -29,7 +28,7 @@ function PlaceList({ places, loading, error, onSelect }: PlaceListProps) {
       {error && <StateMessage $variant="error">{error}</StateMessage>}
       <Grid aria-busy={loading}>
         {places.map((place) => (
-          <PlaceCard key={place.id} place={place} onSelect={onSelect} />
+          <PlaceCard key={place.id} place={place} />
         ))}
         {!loading && places.length === 0 && !error && (
           <EmptyState

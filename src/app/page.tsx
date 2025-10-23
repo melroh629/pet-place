@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import styled from "styled-components";
 
 import FilterBar from "@/components/filters/FilterBar";
 import SiteHero from "@/components/hero/SiteHero";
-import PlaceDrawer from "@/components/places/PlaceDrawer";
+import PageHeader from "@/components/layout/PageHeader";
 import PlaceList from "@/components/places/PlaceList";
 import { usePlaces } from "@/hooks/usePlaces";
 import {
   CATEGORIES,
   REGIONS,
   type Category,
-  type Place,
   type Region,
 } from "@/lib/places";
 
@@ -23,7 +22,6 @@ export default function Page() {
   const { places: allPlaces, loading, error } = usePlaces();
   const [region, setRegion] = useState<Region | "전체">("전체");
   const [category, setCategory] = useState<Category | "전체">("전체");
-  const [selected, setSelected] = useState<Place | null>(null);
 
   const filtered = useMemo(() => {
     return allPlaces.filter((place) => {
@@ -34,14 +32,9 @@ export default function Page() {
     });
   }, [allPlaces, region, category]);
 
-  useEffect(() => {
-    if (selected && !filtered.some((place) => place.id === selected.id)) {
-      setSelected(null);
-    }
-  }, [filtered, selected]);
-
   return (
     <PageBackground>
+      <PageHeader />
       <PageWrap>
         <SiteHero />
         <FilterBar
@@ -56,9 +49,7 @@ export default function Page() {
           places={filtered}
           loading={loading}
           error={error}
-          onSelect={setSelected}
         />
-        <PlaceDrawer place={selected} onClose={() => setSelected(null)} />
       </PageWrap>
     </PageBackground>
   );
