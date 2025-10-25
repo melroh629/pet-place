@@ -24,6 +24,12 @@ export default function PlaceDetailView({ place }: PlaceDetailViewProps) {
   const hasInstagram = Boolean(place.insta_url);
   const showActions = hasLink || hasInstagram;
 
+  // 장소 정보를 URL 파라미터로 전달
+  const REPORT_FORM_BASE_URL = "https://forms.gle/MDCS8ZADLZeY2eM37";
+  const reportUrl = `${REPORT_FORM_BASE_URL}?entry.123456789=${encodeURIComponent(
+    place.name
+  )}`;
+
   const handleBack = () => {
     router.back();
   };
@@ -37,7 +43,11 @@ export default function PlaceDetailView({ place }: PlaceDetailViewProps) {
       <PageHeader
         leftActions={
           <HeaderButton onClick={handleBack} aria-label="뒤로가기">
-            <ArrowLeftIcon size={20} stroke={iconColors.default} strokeWidth={1.8} />
+            <ArrowLeftIcon
+              size={20}
+              stroke={iconColors.default}
+              strokeWidth={1.8}
+            />
           </HeaderButton>
         }
         rightActions={
@@ -52,7 +62,8 @@ export default function PlaceDetailView({ place }: PlaceDetailViewProps) {
           <Title>{place.name}</Title>
           <PlaceInfoBadges place={place} variant="compact" />
           <SubInfo>
-            {REGION_LABELS[place.region]} · {CATEGORY_LABELS[place.category_list]}
+            {REGION_LABELS[place.region]} ·{" "}
+            {CATEGORY_LABELS[place.category_list]}
           </SubInfo>
           <Meta>{place.address}</Meta>
           {place.phone && <Meta>{place.phone}</Meta>}
@@ -99,6 +110,17 @@ export default function PlaceDetailView({ place }: PlaceDetailViewProps) {
             )}
           </Actions>
         )}
+
+        <ReportSection>
+          정보가 정확하지 않나요?{" "}
+          <ReportLink
+            href={reportUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            정보 수정 제안
+          </ReportLink>
+        </ReportSection>
       </Content>
     </Container>
   );
@@ -181,4 +203,26 @@ const Actions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const ReportSection = styled.div`
+  margin-top: 8px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: ${baseColors.text.muted};
+  line-height: 1.5;
+`;
+
+const ReportLink = styled.a`
+  color: ${baseColors.text.secondary};
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: ${brandColors.primaryDark};
+    border-bottom-color: ${brandColors.primaryDark};
+  }
 `;

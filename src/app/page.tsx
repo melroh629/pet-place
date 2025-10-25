@@ -7,13 +7,9 @@ import FilterBar from "@/components/filters/FilterBar";
 import SiteHero from "@/components/hero/SiteHero";
 import PageHeader from "@/components/layout/PageHeader";
 import PlaceList from "@/components/places/PlaceList";
+import FloatingReportButton from "@/components/ui/FloatingReportButton";
 import { usePlaces } from "@/hooks/usePlaces";
-import {
-  CATEGORIES,
-  REGIONS,
-  type Category,
-  type Region,
-} from "@/lib/places";
+import { CATEGORIES, REGIONS, type Category, type Region } from "@/lib/places";
 
 const REGION_OPTIONS: Array<Region | "전체"> = ["전체", ...REGIONS];
 const CATEGORY_OPTIONS: Array<Category | "전체"> = ["전체", ...CATEGORIES];
@@ -45,12 +41,9 @@ export default function Page() {
           onRegionChange={setRegion}
           onCategoryChange={setCategory}
         />
-        <PlaceList
-          places={filtered}
-          loading={loading}
-          error={error}
-        />
+        <PlaceList places={filtered} loading={loading} error={error} />
       </PageWrap>
+      <FloatingReportButton href="https://forms.gle/JE5PgcD9AzadnjTm8" />
     </PageBackground>
   );
 }
