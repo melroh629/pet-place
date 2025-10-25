@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "antd/dist/reset.css";
 import "./globals.css";
@@ -51,6 +52,7 @@ export default function RootLayout({
         <AppProviders>
           {children}
           <Analytics />
+          <SpeedInsights />
         </AppProviders>
       </body>
     </html>
