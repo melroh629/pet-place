@@ -7,6 +7,7 @@ import FilterBar from "@/components/filters/FilterBar";
 import SiteHero from "@/components/hero/SiteHero";
 import PageHeader from "@/components/layout/PageHeader";
 import PlaceList from "@/components/places/PlaceList";
+import PetiquetteBanner from "@/components/petiquette/PetiquetteBanner";
 import FloatingReportButton from "@/components/ui/FloatingReportButton";
 import { usePlaces } from "@/hooks/usePlaces";
 import { CATEGORIES, REGIONS, type Category, type Region } from "@/lib/places";
@@ -33,6 +34,7 @@ export default function Page() {
       <PageHeader />
       <PageWrap>
         <SiteHero />
+        {/* <PetiquetteBanner /> */}
         <FilterBar
           region={region}
           category={category}

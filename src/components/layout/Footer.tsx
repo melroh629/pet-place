@@ -12,7 +12,7 @@ export default function Footer() {
         <Nav>
           <NavLink href="/">장소 둘러보기</NavLink>
           <Divider>·</Divider>
-          <NavLink href="/pet-etiquette">펫티켓</NavLink>
+          <NavLink href="/petiquette">펫티켓</NavLink>
           {/* <Divider>·</Divider>
           <NavLink href="mailto:jw.roh629@gmail.com">문의하기</NavLink> */}
         </Nav>

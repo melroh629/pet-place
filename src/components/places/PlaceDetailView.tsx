@@ -10,6 +10,7 @@ import InstagramIcon from "@/components/icons/InstagramIcon";
 import PageHeader from "@/components/layout/PageHeader";
 import HeaderButton from "@/components/layout/HeaderButton";
 import PlaceInfoBadges from "@/components/places/PlaceInfoBadges";
+import PetiquetteNotice from "@/components/petiquette/PetiquetteNotice";
 import { CATEGORY_LABELS, REGION_LABELS, type Place } from "@/lib/places";
 import { baseColors, brandColors, iconColors } from "@/styles/colors";
 
@@ -68,6 +69,8 @@ export default function PlaceDetailView({ place }: PlaceDetailViewProps) {
           <Meta>{place.address}</Meta>
           {place.phone && <Meta>{place.phone}</Meta>}
         </Header>
+
+        <PetiquetteNotice category={place.category_list} />
 
         {memo && (
           <Section>
