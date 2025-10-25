@@ -10,7 +10,11 @@ type CardProps = {
 
 export default function Card({ children, onClick, className }: CardProps) {
   return (
-    <StyledCard onClick={onClick} className={className} role={onClick ? "button" : undefined}>
+    <StyledCard
+      onClick={onClick}
+      className={className}
+      role={onClick ? "button" : undefined}
+    >
       {children}
     </StyledCard>
   );
@@ -62,6 +66,9 @@ export const CardTitle = styled.h2`
   font-size: 18px;
   font-weight: 700;
   color: ${baseColors.text.primaryDark};
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   line-height: 1.4;
 `;
 

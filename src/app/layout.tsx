@@ -6,6 +6,7 @@ import "antd/dist/reset.css";
 import "./globals.css";
 
 import AppProviders from "@/components/providers/AppProviders";
+import Footer from "@/components/layout/Footer";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body>
         <AppProviders>
           {children}
+          <Footer />
           <Analytics />
           <SpeedInsights />
         </AppProviders>
