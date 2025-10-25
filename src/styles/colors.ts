@@ -77,7 +77,7 @@ export const baseColors = {
 // ============================================
 
 export const categoryColors = {
-  park: "#DFF0D8",
+  trail: "#DFF0D8",
   cafe: "#FFF5DA",
   restaurant: "#FFE5CC",
   playground: "#E0F7F1",

@@ -29,7 +29,7 @@ export type Region = (typeof REGIONS)[number];
 export const CATEGORIES = [
   "restaurant",
   "cafe",
-  "park",
+  "trail",
   "hotel",
   "playground",
   "etc",

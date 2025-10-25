@@ -49,7 +49,7 @@ export const REGION_LABELS: Record<Region, string> = {
 export const CATEGORY_LABELS: Record<Category, string> = {
   restaurant: "식당",
   cafe: "카페",
-  park: "공원",
+  trail: "산책/공원",
   hotel: "숙소",
   playground: "운동장",
   etc: "기타",
@@ -99,7 +99,7 @@ export const BREED_LIMIT_LABELS: Record<BreedLimit, string> = {
 // ==================== UI 관련 설정 ====================
 
 export const CATEGORY_EMOJI: Record<Category, string> = {
-  park: "🌳",
+  trail: "🐕",
   cafe: "☕",
   restaurant: "🍽️",
   playground: "🌿",
@@ -114,7 +114,7 @@ import { categoryColors } from "@/styles/colors";
 export const CATEGORY_COLORS: Record<Category, string> = categoryColors;
 
 export const CATEGORY_ICONS: Record<Category, string> = {
-  park: "default_공원.png",
+  trail: "default_공원.png",
   cafe: "default_카페.png",
   restaurant: "default_식당.png",
   playground: "default_운동장.png",
